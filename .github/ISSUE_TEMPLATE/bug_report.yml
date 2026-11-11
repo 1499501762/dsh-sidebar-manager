@@ -45,8 +45,10 @@ body:
         __dshSidebarManager.diagnostics()
         __dshSidebarManager.bridge()
         ```
-        `diagnostics()` tells us whether a legacy entry lost its element (`elementConnected:false`)
-        or its registration (`registered:false`).
+        `diagnostics()` reports, per legacy entry: `elementConnected` (the original row still
+        exists), `rowRendered` (the sidebar row is on screen) and `panelRegistered` (the panel
+        behind it is registered). `bridge()` adds `repairs` — a number that keeps climbing
+        means the bridge is being rebuilt over and over.
       render: shell
     validations:
       required: false

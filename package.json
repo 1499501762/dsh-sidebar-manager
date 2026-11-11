@@ -1,6 +1,6 @@
 {
   "name": "dsh-sidebar-manager",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "DSH web plugin: manage the left sidebar and the conversation top bar as menu trees — reorder, group, custom icons, show/hide, drag & drop, cross-surface proxy moves (experimental), plus a window API so agents can do it.",
   "type": "module",
   "main": "lib/index.js",

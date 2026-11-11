@@ -151,7 +151,7 @@ __dshSidebarManager.reset()
 
 3. **不再自废武功**：以前 `slots.inject` 抛一次就把 `slotCtx` 置空、从此永不重试——这就是"掉了就再也不回来"的真凶；现在只做退避重试。
 
-排查用：`__dshSidebarManager.diagnostics()` → `[{id,key,label,elementConnected,registered}]`，
+排查用：`__dshSidebarManager.diagnostics()` → `[{id,key,label,elementConnected,rowRendered,panelRegistered}]`，
 `__dshSidebarManager.bridge()` → `{slotContext, adopted, retryAt}`；全绿才算桥接健康。
 
 条目的自定义图标存在 `config.icons[key]`（key 就用 `entries()` 里的那个），列表重绘时覆盖掉宿主自带图标；
