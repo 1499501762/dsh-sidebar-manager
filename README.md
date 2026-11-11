@@ -6,10 +6,6 @@
 A menu editor for the DeepSeek Harness **sidebar** and **conversation top bar**:
 reorder, group, custom icons, hide, drag & drop — plus a small window API an agent can drive.
 
-[![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
-[![dsh](https://img.shields.io/badge/dsh-web-0.1.7%2B-green)](https://github.com/deepseek-ai/deepseek-harness)
-[![issues](https://img.shields.io/github/issues/1499501762/dsh-sidebar-manager)](https://github.com/1499501762/dsh-sidebar-manager/issues)
-
 ---
 
 ## 它解决什么
@@ -19,16 +15,6 @@ reorder, group, custom icons, hide, drag & drop — plus a small window API an a
 - **入口没法整理**：全局面板、插件快捷入口、底部动作挤在一起，没法排序、分组、隐藏。
 - **顶栏太杂**：智能体团队、创造模式、撤销/快照…用不上也藏不掉。
 - **想换个图标**：每个条目、每个分组都可以换（24 个内置线性图标 / 粘贴 SVG / 上传图片）。
-
-## 截图
-
-| 设置页 | 自定义图标 |
-| --- | --- |
-| ![settings](assets/settings.png) | ![icons](assets/icons.png) |
-
-| 跨区代理（顶栏「撤销」搬到侧边栏，逐按钮可点） |
-| --- |
-| ![proxy](assets/proxy.png) |
 
 ## 安装
 
