@@ -24,18 +24,17 @@
 
 ### 2. 老入口 → 全局面板（adoption）
 
-`原料价格 / 汇率 / 项目看板 / 订单看板 / 日历 / Thunderbird` 这几个是自写的老版本插件：
-它们直接往侧边栏根节点插一行 `<button>`，点开时把一块绝对定位的看板盖在中间栏上。那套接缝没有 slot，
-既不能和 shell 自带面板一起排序，也不能被 shell 隐藏。
+早期的一些自写插件没有走 slot：它们直接往侧边栏根节点插一行 `<button>`，点开时把一块绝对定位的面板盖在中间栏上。
+那套接缝既不能和 shell 自带面板一起排序，也不能被 shell 隐藏。
 
 本插件把它们**提升成真正的全局面板**：
 
 - 注册一条 `sidebar.panellist`（图标直接复用原行里的 SVG）→ 出现在全局面板列表里；
-- 注册一个 keyed 的 `main` 面板 → 挂载时点一下被隐藏的原始行把看板打开，卸载时派发
-  `dsh-panel-activate` 让看板自己关掉；
+- 注册一个 keyed 的 `main` 面板 → 挂载时点一下被隐藏的原始行把它的界面打开，卸载时派发
+  `dsh-panel-activate` 让它自己关掉；
 - 原始行仍留在 DOM 里（隐藏），因为那几个插件会不断把行重新插回去，这里不改它们一行代码。
 
-看板自己的 × 关闭后，插件会把 shell 送回对话（不会留一个空白面板）。
+它自己的关闭按钮点掉之后，插件会把 shell 送回对话（不会留一个空白面板）。
 
 ### 3. 侧边栏管理（设置 → 侧边栏）
 
@@ -103,7 +102,8 @@ DSH Desktop / 新版本 shell 在会话标题栏右侧有一排工具栏，它�
 
 ### 8. 插件挂在 region 顶部的入口（MCP 连接器之类）
 
-有些插件不通过 `sidebar.panellist`，而是往 region 区顶部插一行（`div[data-mcp-connector-top-mount]`）。
+有些插件不通过 `sidebar.panellist`，而是往 region 区顶部插一行（一个带 `data-*` 标记的挂载点，
+里面包一个按钮）。
 这些行现在也会被收进列表统一管理：原挂载点隐藏，管理列表里出现同名同图标的一行，顺序/分组/隐藏都和普通入口一样。
 
 ### 9. Agent 接口 + 技能
@@ -121,7 +121,7 @@ __dshSidebarManager.setLayout('sidebar', [...])     // 整棵树
 __dshSidebarManager.reset()
 ```
 
-配套技能 `sidebar-manager`（`%APPDATA%\dsh-desktop\harness\skills\sidebar-manager\SKILL.md`）写清了调用姿势与验证流程。
+配套技能 `sidebar-manager` 写清了调用姿势与验证流程。
 
 ### 10. 代理都代理了什么
 
@@ -139,7 +139,7 @@ __dshSidebarManager.reset()
 
 ### 11. 老插件入口的存活修复
 
-那 6 个早期自写插件（原料价格 / 汇率 / 项目看板 / 订单看板 / 日历 / Thunderbird）是靠"旧按钮 → 注册为全局面板"的桥接接进来的。
+早期那批自写插件是靠"旧按钮 → 注册为全局面板"的桥接接进来的。
 以前侧边栏一刷新，宿主会把我们注入的 slot 注册丢掉，而旧的代码只在首次登记一次，于是入口就永久消失。
 
 现在每轮巡检（含 3s 看门狗，DOM 没变化也会跑）都做三件事：
@@ -162,7 +162,7 @@ __dshSidebarManager.reset()
 - **不搬动 React 节点**：面板列表由本插件用「原生按钮克隆」重建，React 的 children 一个没动；
   选中态通过读原按钮的 `aria-current` / `panelActive` 类镜像到克隆行。
 - **不认构建哈希**：shell 自己的行靠 `[class*=newSession]` 这类稳定后缀识别，其余直接子按钮都当插件注入行处理。
-- **面板 key 用 slot id**（`panel:ssh`、`panel:dsm-qe-...`），不是文案，所以文案变化不会丢配置；
+- **面板 key 用 slot id**（形如 `panel:<slot-id>`），不是文案，所以文案变化不会丢配置；
   `ctx.slots.entriesOfSlot("sidebar.panellist")` 取不到时退回按名字匹配。
 - **合并布局**：配置里只存「用户排过的」；新插件新增的条目自动追加到末尾，删除的自动剔除。
 - 设置页走 `settings.section` slot，和「通用设置 / 模型 / 内置插件」同级。
@@ -171,15 +171,16 @@ __dshSidebarManager.reset()
 
 ## 安装 / 卸载
 
-已装在当前 desktop 配置（`%APPDATA%\dsh-desktop\harness\profiles\web`）：
+仓库自带的脚本会把它挂到本机的 desktop profile 上（脚本默认取 desktop 的 profile 目录，
+也可以用 `-Profile` 指到别处）：
 
 ```bash
 pwsh -File scripts/install.ps1     # 幂等：建 junction + 往 cordis.patch.yml 追加 insert 行
 pwsh -File scripts/uninstall.ps1   # 移除（源码目录不动）
 ```
 
-> 插件市场执行 `pnpm install` 时可能清掉不在 profile `package.json` 里的 `node_modules` 目录。
-> 如果某次市场更新后插件消失（侧边栏又挤回去），重跑一次 `scripts/install.ps1`。
+> 在 profile 里执行 `pnpm install` 时可能清掉不在 profile `package.json` 里的 `node_modules` 目录。
+> 如果某次更新后插件消失（侧边栏又挤回去），重跑一次 `scripts/install.ps1`。
 
 ## 已知取舍
 
