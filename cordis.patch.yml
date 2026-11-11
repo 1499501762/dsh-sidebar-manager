@@ -1,0 +1,15 @@
+# dsh-sidebar-manager bundle patch
+#
+# One plugin row. The package is mounted either by listing it in the profile's
+# `dsh.profile.bundles` (its own bundle patch is applied then) or by an
+# `- insert:` row in the profile patch layer:
+#
+#   - insert:
+#       - id: sidebar-manager
+#         name: dsh-sidebar-manager
+#
+# The host half does nothing; the browser half (exports["./client"]) carries the
+# whole feature and is discovered from the `dsh.client` declaration above.
+- insert:
+    - id: sidebar-manager
+      name: dsh-sidebar-manager

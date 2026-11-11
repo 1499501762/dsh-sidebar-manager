@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: DSH itself (not this plugin)
+    url: https://github.com/deepseek-ai/deepseek-harness/issues
+    about: Bugs in the harness, the sidebar slots, or the desktop app belong upstream.

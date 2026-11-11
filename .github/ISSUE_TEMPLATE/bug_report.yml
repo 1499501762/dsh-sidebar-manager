@@ -1,0 +1,60 @@
+name: Bug report
+description: Something in the sidebar or top bar looks or behaves wrong.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. The two things that make a bug actionable fastest are
+        **the DSH version** and **the diagnostics output** below.
+
+  - type: input
+    id: dsh-version
+    attributes:
+      label: DSH version
+      description: Settings → General, or the About dialog. Desktop build number is fine too.
+      placeholder: "e.g. 0.1.7-rc.1 / Desktop 1.4.2"
+    validations:
+      required: true
+
+  - type: input
+    id: plugin-version
+    attributes:
+      label: dsh-sidebar-manager version
+      description: Shown at Settings → 侧边栏/顶栏管理, or `__dshSidebarManager.version` in the console.
+      placeholder: "e.g. 1.0.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you did, what you expected, what you got.
+    validations:
+      required: true
+
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics (open DevTools → Console and paste the output)
+      description: |
+        ```js
+        __dshSidebarManager.version
+        __dshSidebarManager.diagnostics()
+        __dshSidebarManager.bridge()
+        ```
+        `diagnostics()` tells us whether a legacy entry lost its element (`elementConnected:false`)
+        or its registration (`registered:false`).
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Drag images here. A screenshot of the whole sidebar beats a crop.
+    validations:
+      required: false
