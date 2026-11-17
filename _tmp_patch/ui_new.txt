@@ -1,0 +1,25 @@
+			var chips = ["all", "hidden"].map(function (mode) {
+				return React.createElement("button", {
+					key: "chip:" + mode,
+					type: "button",
+					className: "dsm-chip",
+					"data-active": filterMode === mode ? "true" : "false",
+					onClick: function () { setFilterMode(mode); }
+				}, mode === "hidden" ? t("filterHidden") : t("filterAll"));
+			});
+			return React.createElement("div", { className: "dsm-root" }, [
+				React.createElement("div", { key: "head" }, [
+					React.createElement("h2", { key: "title", className: "dsm-title" }, t("title")),
+					React.createElement("p", { key: "hint", className: "dsm-hint" }, t("hint"))
+				]),
+				React.createElement("div", { key: "toolbar", className: "dsm-toolbar" }, [
+					React.createElement("input", {
+						key: "search",
+						className: "dsm-search",
+						type: "search",
+						value: query,
+						placeholder: t("searchPlaceholder"),
+						onChange: function (event) { setQuery(event.target.value); }
+					})
+				].concat(chips))
+			].concat(cards, [

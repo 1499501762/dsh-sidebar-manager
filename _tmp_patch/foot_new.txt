@@ -1,0 +1,23 @@
+						React.createElement("div", { key: "history", className: "dsm-line" }, [
+							React.createElement("button", { key: "undo", type: "button", className: "dsm-add", disabled: !canUndo(), onClick: function () { undoConfig(); } }, "↶ " + t("undo")),
+							React.createElement("button", { key: "redo", type: "button", className: "dsm-add", disabled: !canRedo(), onClick: function () { redoConfig(); } }, "↷ " + t("redo")),
+							React.createElement("button", { key: "export", type: "button", className: "dsm-add", onClick: function () { downloadConfigFile(); setNotice(null); } }, t("exportConfig")),
+							React.createElement("button", { key: "import", type: "button", className: "dsm-add", onClick: function () {
+								var input = document.createElement("input");
+								input.type = "file";
+								input.accept = "application/json,.json";
+								input.addEventListener("change", function () {
+									var picked = input.files && input.files[0];
+									if (!picked) return;
+									var reader = new FileReader();
+									reader.onload = function () {
+										var ok = importConfigPayload(String(reader.result));
+										setNotice(ok ? null : t("importFailed"));
+									};
+									reader.readAsText(picked);
+								});
+								input.click();
+							} }, t("importConfig"))
+						]),
+						notice === null ? null : React.createElement("p", { key: "notice", className: "dsm-hint dsm-warn" }, notice),
+						React.createElement("p", { key: "regionHint", className: "dsm-hint" }

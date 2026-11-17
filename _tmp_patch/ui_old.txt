@@ -1,0 +1,6 @@
+			return React.createElement("div", { className: "dsm-root" }, [
+				React.createElement("div", { key: "head" }, [
+					React.createElement("h2", { key: "title", className: "dsm-title" }, t("title")),
+					React.createElement("p", { key: "hint", className: "dsm-hint" }, t("hint"))
+				])
+			].concat(cards, [
